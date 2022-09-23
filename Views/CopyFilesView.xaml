@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="CopyFilesByModificationDate.Views.CopyFilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CopyFilesByModificationDate.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="5">
+            <Button x:Name="SourcePathBtn" Height="30" Margin="0 0 10 10" Width="150" Content="Source Path"/>
+            <TextBox x:Name="SourcePathTextBlock" Height="30" Margin="0 0 10 10" Width="600" Text="Specify Source Directory Path" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="5">
+            <Button x:Name="DestPathBtn" Height="30" Margin="0 0 10 10" Width="150" Content="Destination Path"/>
+            <TextBox x:Name="DestinationPathTextBlock"  Height="30" Margin="0 0 10 10" Width="600" Text="Specify Destination Directory Path" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBox Text="File List" HorizontalAlignment="Left" TextAlignment="Center" Width="300" FontSize="16" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="2">
+            <Button x:Name="CopyBtn" Grid.Column="4" Padding="10" Width="100" FontSize="16" Content="Copy"/>
+            <StatusBar Padding="10" Grid.Column="4" Width="200" Margin="0 25 0 0" Grid.Row="3" />
+            <TextBox x:Name="ResultTextBlock" Margin="0 25 0 0" Width="200" Height="185" Grid.Column="4"/>
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="3">
+            <ListView x:Name="FileListView" Height="300" Width="400" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
