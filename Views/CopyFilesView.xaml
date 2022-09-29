@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:CopyFilesByModificationDate.Views"
+             xmlns:local="clr-namespace:CopyFilesByModificationDate.Views" xmlns:viewmodels="clr-namespace:CopyFilesByModificationDate.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:CopyFilesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -31,28 +31,42 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="5">
-            <Button x:Name="SourcePathBtn" Height="30" Margin="0 0 10 10" Width="150" Content="Source Path"/>
-            <TextBox x:Name="SourcePathTextBlock" Height="30" Margin="0 0 10 10" Width="600" Text="Specify Source Directory Path" />
+            <Button x:Name="SourcePathBtn" Height="30" Margin="0 0 10 10" Width="150" Click="SourcePathBtn_Click" Content="Source Path"/>
+            <TextBox x:Name="SourcePathTextBlock" Height="30" Margin="0 0 10 10" Width="600" DataContext="{Binding SourcePathString }"  Text="Specify Source Directory Path" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="5">
-            <Button x:Name="DestPathBtn" Height="30" Margin="0 0 10 10" Width="150" Content="Destination Path"/>
-            <TextBox x:Name="DestinationPathTextBlock"  Height="30" Margin="0 0 10 10" Width="600" Text="Specify Destination Directory Path" />
+            <Button x:Name="DestPathBtn" Height="30" Margin="0 0 10 10" Width="150" Click="DestPathBtn_Click" Content="Destination Path"/>
+            <TextBox x:Name="DestinationPathTextBlock"  Height="30" Margin="0 0 10 10" Width="600" DataContext="{Binding DestinationPathString }" Text="Specify Destination Directory Path" />
         </StackPanel>
 
-        <StackPanel Grid.Row="2">
-            <TextBox Text="File List" HorizontalAlignment="Left" TextAlignment="Center" Width="300" FontSize="16" />
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
+            <Button x:Name="LoadItemsBtn" Grid.Column="3" Click="LoadItemsBtn_Click" Margin="0 0 20 0" Padding="10" Width="100" FontSize="16" Content="Load Files"/>
+            <Button x:Name="CopyBtn" Grid.Column="4" Click="CopyBtn_Click" Padding="10" Width="100" FontSize="16" Content="Copy"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="2">
-            <Button x:Name="CopyBtn" Grid.Column="4" Padding="10" Width="100" FontSize="16" Content="Copy"/>
             <StatusBar Padding="10" Grid.Column="4" Width="200" Margin="0 25 0 0" Grid.Row="3" />
             <TextBox x:Name="ResultTextBlock" Margin="0 25 0 0" Width="200" Height="185" Grid.Column="4"/>
         </StackPanel>
 
 
-        <StackPanel Grid.Row="3">
-            <ListView x:Name="FileListView" Height="300" Width="400" HorizontalAlignment="Left"/>
+        <StackPanel Grid.Row="2" Grid.RowSpan="2" >
+            <TextBlock Text="File List" HorizontalAlignment="Left" TextAlignment="Center" Width="300" FontSize="16" />
+            <ListView x:Name="FileListView" Height="300" Width="400" ItemsSource="{Binding files}" HorizontalAlignment="Left" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding _fileName}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
 
     </Grid>

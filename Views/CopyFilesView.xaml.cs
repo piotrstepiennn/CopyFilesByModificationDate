@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CopyFilesByModificationDate.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,37 @@ namespace CopyFilesByModificationDate.Views
     /// </summary>
     public partial class CopyFilesView : UserControl
     {
+        CopyFilesViewModel _copyFilesViewModel;
+        private string _sourcePath;
+        private string _destinationPath;
+       
         public CopyFilesView()
         {
+            _copyFilesViewModel = new CopyFilesViewModel();
             InitializeComponent();
+        }
+
+        private void SourcePathBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _sourcePath = _copyFilesViewModel.GetPath();
+            SourcePathTextBlock.Text = _sourcePath;
+        }
+
+        private void DestPathBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _destinationPath = _copyFilesViewModel.GetPath();
+            DestinationPathTextBlock.Text = _destinationPath;
+        }
+
+        private void CopyBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LoadItemsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            bool result = _copyFilesViewModel.LoadItems(_sourcePath);
+            if (!result) ResultTextBlock.Text = "Failed to load files!";
         }
     }
 }

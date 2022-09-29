@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CopyFilesByModificationDate.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,11 @@ namespace CopyFilesByModificationDate
     /// </summary>
     public partial class MainWindow : Window
     {
+        CopyFilesViewModel viewModel;
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = viewModel = new CopyFilesViewModel();
         }
     }
 }
