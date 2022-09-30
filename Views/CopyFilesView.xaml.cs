@@ -1,4 +1,5 @@
-﻿using CopyFilesByModificationDate.ViewModels;
+﻿using CopyFilesByModificationDate.Models;
+using CopyFilesByModificationDate.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace CopyFilesByModificationDate.Views
         CopyFilesViewModel _copyFilesViewModel;
         private string _sourcePath;
         private string _destinationPath;
-       
         public CopyFilesView()
         {
             _copyFilesViewModel = new CopyFilesViewModel();
@@ -54,6 +54,19 @@ namespace CopyFilesByModificationDate.Views
         {
             bool result = _copyFilesViewModel.LoadItems(_sourcePath);
             if (!result) ResultTextBlock.Text = "Failed to load files!"; else ResultTextBlock.Text = "Files succesfully loaded!";
+        }
+        
+        private void DeleteSelectedItemBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var item = FileListView.SelectedItem as FileListItem;
+            bool result;
+            if (item != null)
+            {
+                result = _copyFilesViewModel.DeleteItem(item);
+                if (result) ResultTextBlock.Text = "Deleted item from list";
+            }
+            else ResultTextBlock.Text = "Failed to delete item";
+            
         }
     }
 }

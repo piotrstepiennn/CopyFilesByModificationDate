@@ -17,15 +17,15 @@ namespace CopyFilesByModificationDate.ViewModels
 {
     public class CopyFilesViewModel : ViewModelBase
     {
-        public ObservableCollection<FileListItems> _files;
+        public ObservableCollection<FileListItem> _files;
         public string SourcePathString { get; set; }
         public string DestinationPathString { get; set; }
-        public IEnumerable<FileListItems> files => _files;
+        public IEnumerable<FileListItem> files => _files;
         public double ProgressBarValue { get; set; }
 
         public CopyFilesViewModel()
         {
-            _files = new ObservableCollection<FileListItems>();
+            _files = new ObservableCollection<FileListItem>();
         }
         public string GetPath()
         {
@@ -47,13 +47,21 @@ namespace CopyFilesByModificationDate.ViewModels
                 {
                     DateTime lastModified = System.IO.File.GetLastWriteTime(file);
                     var fileName = Path.GetFileNameWithoutExtension(file);
-                    _files.Add(new FileListItems(file, lastModified, fileName));
+                    if(fileName.Length > 30)
+                    {
+                        string shortFileName = fileName.Substring(0, 30);
+                        _files.Add(new FileListItem(file, lastModified, shortFileName));
+                    }
+                    else
+                    {
+                        _files.Add(new FileListItem(file, lastModified, fileName));
+                    }
                 }                    
                 
                 string[] subdirectoryEntries = Directory.GetDirectories(sourcePath);
                 foreach (string subdirectory in subdirectoryEntries)
                     LoadItems(subdirectory);
-                _files = new ObservableCollection<FileListItems>(_files.OrderBy(file => file._lastModified));
+                _files = new ObservableCollection<FileListItem>(_files.OrderBy(file => file._lastModified));
                 return true;
             }
             else return false;
@@ -80,6 +88,17 @@ namespace CopyFilesByModificationDate.ViewModels
                 }
                 return true;
             } else return false;
+        }
+
+        public bool DeleteItem(FileListItem item)
+        {
+            if (_files.Contains(item))
+            {
+                _files.Remove(item);
+                OnPropertyChanged("files");
+                return true;
+            } 
+            return false;
         }
 
     }
