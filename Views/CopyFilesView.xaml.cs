@@ -44,10 +44,9 @@ namespace CopyFilesByModificationDate.Views
             DestinationPathTextBlock.Text = _destinationPath;
         }
 
-        private void CopyBtn_Click(object sender, RoutedEventArgs e)
+        private async void CopyBtn_Click(object sender, RoutedEventArgs e)
         {
-            progressBar.Value = 50;
-            bool result = _copyFilesViewModel.CopyFiles(_destinationPath);
+            bool result = await Task.Run( () => _copyFilesViewModel.CopyFiles(_destinationPath));
             if (!result) ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Failed to copy files!"; else ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Files succesfully copied!";
         }
 

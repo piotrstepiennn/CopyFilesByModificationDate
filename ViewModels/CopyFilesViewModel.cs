@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CopyFilesByModificationDate.ViewModels
@@ -15,13 +18,11 @@ namespace CopyFilesByModificationDate.ViewModels
     public class CopyFilesViewModel : ViewModelBase
     {
         public ObservableCollection<FileListItems> _files;
-        public ICommand CopyCommand { get; }
-        public ICommand SourcePathCommand { get; }
-        public ICommand DestinationPathCommand { get; }
         public string SourcePathString { get; set; }
         public string DestinationPathString { get; set; }
         public IEnumerable<FileListItems> files => _files;
-        public FileListItems FileListItems { get; }
+        public double ProgressBarValue { get; set; }
+
         public CopyFilesViewModel()
         {
             _files = new ObservableCollection<FileListItems>();
@@ -60,10 +61,14 @@ namespace CopyFilesByModificationDate.ViewModels
 
         public bool CopyFiles(string destinationPath)
         {
+            int filesCount = _files.Count + 1;
+            int i = 2;
             if (Directory.Exists(destinationPath))
             {               
                 foreach (var file in _files)
                 {
+                    ProgressBarValue = (i * 100) / filesCount;
+                    OnPropertyChanged("ProgressBarValue");
                     var fileName = Path.GetFileNameWithoutExtension(file._Path);
                     var fileExtension = Path.GetExtension(file._Path);
                     var destinationFileName = destinationPath + "\\" + fileName + fileExtension;
@@ -71,6 +76,7 @@ namespace CopyFilesByModificationDate.ViewModels
                     {                         
                         File.Copy(file._Path, destinationFileName);
                     }
+                    i++;
                 }
                 return true;
             } else return false;

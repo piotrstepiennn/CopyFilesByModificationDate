@@ -46,7 +46,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="2">
-            <ProgressBar x:Name="progressBar" Padding="10" Grid.Column="4" Width="200" Margin="0 25 0 0" Height="20" Grid.Row="3" />
+            <ProgressBar x:Name="progressBar" Minimum="0" Maximum="100" Padding="10" Value="{Binding ProgressBarValue, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" Width="200" Margin="0 25 0 0" Height="20" Grid.Row="3" />
             <TextBox x:Name="ResultTextBlock" Margin="0 25 0 0" Width="200" Height="185" Grid.Column="4"/>
         </StackPanel>
 
