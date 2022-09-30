@@ -21,11 +21,9 @@ namespace CopyFilesByModificationDate
     /// </summary>
     public partial class MainWindow : Window
     {
-        CopyFilesViewModel viewModel;
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = viewModel = new CopyFilesViewModel();
         }
     }
 }

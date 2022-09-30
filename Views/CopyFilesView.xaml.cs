@@ -29,6 +29,7 @@ namespace CopyFilesByModificationDate.Views
         {
             _copyFilesViewModel = new CopyFilesViewModel();
             InitializeComponent();
+            DataContext = _copyFilesViewModel;
         }
 
         private void SourcePathBtn_Click(object sender, RoutedEventArgs e)
@@ -45,13 +46,15 @@ namespace CopyFilesByModificationDate.Views
 
         private void CopyBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            progressBar.Value = 50;
+            bool result = _copyFilesViewModel.CopyFiles(_destinationPath);
+            if (!result) ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Failed to copy files!"; else ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Files succesfully copied!";
         }
 
         private void LoadItemsBtn_Click(object sender, RoutedEventArgs e)
         {
             bool result = _copyFilesViewModel.LoadItems(_sourcePath);
-            if (!result) ResultTextBlock.Text = "Failed to load files!";
+            if (!result) ResultTextBlock.Text = "Failed to load files!"; else ResultTextBlock.Text = "Files succesfully loaded!";
         }
     }
 }
