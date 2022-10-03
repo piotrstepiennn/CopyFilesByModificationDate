@@ -46,12 +46,14 @@ namespace CopyFilesByModificationDate.Views
 
         private async void CopyBtn_Click(object sender, RoutedEventArgs e)
         {
+            _destinationPath = DestinationPathTextBlock.Text;
             bool result = await Task.Run( () => _copyFilesViewModel.CopyFiles(_destinationPath));
             if (!result) ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Failed to copy files!"; else ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Files succesfully copied!";
         }
 
         private void LoadItemsBtn_Click(object sender, RoutedEventArgs e)
         {
+            _sourcePath = SourcePathTextBlock.Text;
             bool result = _copyFilesViewModel.LoadItems(_sourcePath);
             if (!result) ResultTextBlock.Text = "Failed to load files!"; else ResultTextBlock.Text = "Files succesfully loaded!";
         }
@@ -63,9 +65,9 @@ namespace CopyFilesByModificationDate.Views
             if (item != null)
             {
                 result = _copyFilesViewModel.DeleteItem(item);
-                if (result) ResultTextBlock.Text = "Deleted item from list";
+                if (result) ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Deleted item from list";
             }
-            else ResultTextBlock.Text = "Failed to delete item";
+            else ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Failed to delete item";
             
         }
     }

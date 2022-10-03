@@ -40,6 +40,7 @@ namespace CopyFilesByModificationDate.ViewModels
         
         public bool LoadItems(string sourcePath)
         {
+            List<FileListItem> items = new List<FileListItem>();
             if (Directory.Exists(sourcePath))
             {
                 string[] fileEntries = Directory.GetFiles(sourcePath, "*.mp3");
@@ -50,18 +51,20 @@ namespace CopyFilesByModificationDate.ViewModels
                     if(fileName.Length > 30)
                     {
                         string shortFileName = fileName.Substring(0, 30);
-                        _files.Add(new FileListItem(file, lastModified, shortFileName));
+                        items.Add(new FileListItem(file, lastModified, shortFileName));
                     }
                     else
                     {
-                        _files.Add(new FileListItem(file, lastModified, fileName));
+                        items.Add(new FileListItem(file, lastModified, fileName));
                     }
                 }                    
                 
                 string[] subdirectoryEntries = Directory.GetDirectories(sourcePath);
                 foreach (string subdirectory in subdirectoryEntries)
                     LoadItems(subdirectory);
-                _files = new ObservableCollection<FileListItem>(_files.OrderBy(file => file._lastModified));
+
+                _files = new ObservableCollection<FileListItem>(items.OrderBy(file => file._lastModified));
+                OnPropertyChanged();
                 return true;
             }
             else return false;

@@ -58,7 +58,6 @@
             <TextBox x:Name="ResultTextBlock" Margin="0 25 0 0" Width="200" Height="185" Grid.Column="4"/>
         </StackPanel>
 
-
         <StackPanel Grid.Row="2" Grid.RowSpan="2" >
             <TextBlock Text="File List" HorizontalAlignment="Left" TextAlignment="Center" Width="300" FontSize="16" />
             <ListView x:Name="FileListView" Height="300" Width="400" ItemsSource="{Binding files}" HorizontalAlignment="Left" >
