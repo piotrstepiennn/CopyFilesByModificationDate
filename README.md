@@ -7,5 +7,5 @@ The application displays a list containing the song title and the date it was la
 ### Screenshots ###
 | Images  | Images |
 | ------------- | ------------- |
-| ![ItemsList](assets/1FilesLoaded.png)  | ![ItemsList](assets/2FiledCopied.png)  |
+| ![ItemsList](assets/1FilesLoaded.png)  | ![ItemsList](assets/2FilesCopied.png)  |
 | ![ItemsList](assets/3BeforeDeletingItem.png)  | ![ItemsList](assets/4AfterClickDeleteItem.png)  |
