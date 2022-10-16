@@ -12,6 +12,7 @@ using System.Windows.Input;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.Text.RegularExpressions;
 
 namespace CopyFilesByModificationDate.ViewModels
 {
@@ -76,13 +77,19 @@ namespace CopyFilesByModificationDate.ViewModels
             int i = 2;
             if (Directory.Exists(destinationPath))
             {               
-                foreach (var file in _files)
+                foreach (var file in _files.ToList())
                 {
                     ProgressBarValue = (i * 100) / filesCount;
                     OnPropertyChanged("ProgressBarValue");
                     var fileName = Path.GetFileNameWithoutExtension(file._Path);
                     var fileExtension = Path.GetExtension(file._Path);
                     var destinationFileName = destinationPath + "\\" + fileName + fileExtension;
+
+                    App.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        bool del = DeleteItem(file);
+                    });
+
                     if (!File.Exists(destinationFileName)) 
                     {                         
                         File.Copy(file._Path, destinationFileName);
