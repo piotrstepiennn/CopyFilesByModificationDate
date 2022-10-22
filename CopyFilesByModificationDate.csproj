@@ -8,4 +8,16 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="assets\arrowDown.png" />
+    <None Remove="assets\arrowUp.png" />
+    <None Remove="assets\trashBin.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\arrowDown.png" />
+    <Resource Include="assets\arrowUp.png" />
+    <Resource Include="assets\trashBin.jpg" />
+  </ItemGroup>
+
 </Project>
