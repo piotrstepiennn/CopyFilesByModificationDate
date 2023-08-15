@@ -28,8 +28,8 @@ namespace CopyFilesByModificationDate.Views
         public CopyFilesView()
         {
             _copyFilesViewModel = new CopyFilesViewModel();
-            InitializeComponent();
             DataContext = _copyFilesViewModel;
+            InitializeComponent();
         }
 
         private void SourcePathBtn_Click(object sender, RoutedEventArgs e)
@@ -105,7 +105,7 @@ namespace CopyFilesByModificationDate.Views
 
         private async void CopyAllBtn_Click(object sender, RoutedEventArgs e)
         {
-            _destinationPath = SourcePathTextBlock.Text;
+            _sourcePath = SourcePathTextBlock.Text;
             _destinationPath = DestinationPathTextBlock.Text;
             bool result = await Task.Run(() => _copyFilesViewModel.CopyAllFilesAsync(_sourcePath, _destinationPath));
             if (!result) ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Failed to copy files!"; else ResultTextBlock.Text = ResultTextBlock.Text + "\n" + "Files succesfully copied!";

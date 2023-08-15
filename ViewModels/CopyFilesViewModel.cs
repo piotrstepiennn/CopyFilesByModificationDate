@@ -8,24 +8,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-using System.Windows.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-using System.Text.RegularExpressions;
-using System.Windows.Shapes;
 using Path = System.IO.Path;
-using static System.Net.WebRequestMethods;
 using File = System.IO.File;
 
 namespace CopyFilesByModificationDate.ViewModels
 {
     public class CopyFilesViewModel : ViewModelBase
     {
-        public ObservableCollection<FileListItem> _files;
-        public ObservableCollection<DirectoryListItem> _SourceDirectories;
-        public ObservableCollection<DirectoryListItem> _DestinationDirectories;
-        public string SourcePathString { get; set; }
+        private ObservableCollection<FileListItem> _files;
+        private ObservableCollection<DirectoryListItem> _SourceDirectories;
+        private ObservableCollection<DirectoryListItem> _DestinationDirectories;
+        private string _SourcePathString;
+        public string SourcePathString 
+        {
+            get
+            {
+                return _SourcePathString;
+            }
+
+            set
+            {
+                _SourcePathString = value;
+                OnPropertyChanged(SourcePathString);
+            }
+        }
         public string DestinationPathString { get; set; }
         public IEnumerable<FileListItem> files => _files;
         public IEnumerable<DirectoryListItem> SourceDirectories => _SourceDirectories;
@@ -90,7 +96,7 @@ namespace CopyFilesByModificationDate.ViewModels
 
                 string[] subdirectoryEntries = Directory.GetDirectories(sourcePath);
                 foreach (string subdirectory in subdirectoryEntries)
-                    LoadItems(subdirectory);
+                    await LoadItems(subdirectory);
 
                 _files = new ObservableCollection<FileListItem>(items.OrderBy(file => file._lastModified));
                 OnPropertyChanged();
@@ -114,11 +120,6 @@ namespace CopyFilesByModificationDate.ViewModels
                         {
                             ProgressBarValue = (double)((alternativeProgressBarCounter * 100) / count);
                             alternativeProgressBarCounter++;
-                        }
-                        else
-                        {
-                            ProgressBarValue = (i * 100) / filesCount;
-                            i++;
                         }
 
                         OnPropertyChanged("ProgressBarValue");
@@ -146,6 +147,8 @@ namespace CopyFilesByModificationDate.ViewModels
                         if (!File.Exists(destinationFile))
                         {
                             await Task.Run(() => File.Copy(file._Path, destinationFile));
+                            i++;
+                            ProgressBarValue = (i * 100) / filesCount;
                         }
                         
                     }
@@ -189,7 +192,7 @@ namespace CopyFilesByModificationDate.ViewModels
                     });
 
                     await LoadItems(dir.FullPath);
-                    result += await Task.Run(() => CopyFilesAsync(destinationPath, count, result));               
+                    result = await Task.Run(() => CopyFilesAsync(destinationPath, count, result));     
                 }
                 return true;
             } 
@@ -202,7 +205,7 @@ namespace CopyFilesByModificationDate.ViewModels
             if (_files.Contains(item))
             {
                 _files.Remove(item);
-                OnPropertyChanged("files");
+                OnPropertyChanged(nameof(_files));
                 return true;
             } 
             return false;
@@ -215,12 +218,12 @@ namespace CopyFilesByModificationDate.ViewModels
                 if (_files.Contains(item))
                 {
                     int index = _files.IndexOf(item);
-                    FileListItem tmp = new FileListItem();
+                    FileListItem tmp = new();
 
                     tmp = _files[index - 1];
                     _files[index - 1] = item;
                     _files[index] = tmp;
-                    OnPropertyChanged("files");
+                    OnPropertyChanged(nameof(_files));
                     return true;
                 }
                 return false;
@@ -235,12 +238,12 @@ namespace CopyFilesByModificationDate.ViewModels
                 if (_files.Contains(item))
                 {
                     int index = _files.IndexOf(item);
-                    FileListItem tmp = new FileListItem();
+                    FileListItem tmp = new();
 
                     tmp = _files[index + 1];
                     _files[index + 1] = item;
                     _files[index] = tmp;
-                    OnPropertyChanged("files");
+                    OnPropertyChanged(nameof(_files));
                     return true;
                 }
                 return false;

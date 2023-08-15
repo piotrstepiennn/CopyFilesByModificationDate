@@ -41,12 +41,12 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="5">
             <Button x:Name="SourcePathBtn" Height="30" Margin="0 0 10 10" Width="150" Click="SourcePathBtn_Click" Content="Source Path"/>
-            <TextBox x:Name="SourcePathTextBlock" Height="30" Margin="0 0 10 10" Width="800" DataContext="{Binding SourcePathString }"  Text="Specify Source Directory Path" />
+            <TextBox x:Name="SourcePathTextBlock" Height="30" Margin="0 0 10 10" Width="800" DataContext="{Binding SourcePathString, UpdateSourceTrigger=PropertyChanged}"  Text="Specify Source Directory Path" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="5">
             <Button x:Name="DestPathBtn" Height="30" Margin="0 0 10 10" Width="150" Click="DestPathBtn_Click" Content="Destination Path"/>
-            <TextBox x:Name="DestinationPathTextBlock"  Height="30" Margin="0 0 10 10" Width="800" DataContext="{Binding DestinationPathString }" Text="Specify Destination Directory Path" />
+            <TextBox x:Name="DestinationPathTextBlock"  Height="30" Margin="0 0 10 10" Width="800" DataContext="{Binding DestinationPathString, UpdateSourceTrigger=PropertyChanged }" Text="Specify Destination Directory Path" />
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="1">
